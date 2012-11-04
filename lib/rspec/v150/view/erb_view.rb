@@ -1,5 +1,5 @@
 require 'action_view'
-require 'rspec/v150/view'
+
 module RSpec::V150
   module View
     class ErbView

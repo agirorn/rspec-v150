@@ -51,9 +51,9 @@ module RSpec::V150
     def template_name
      if @template
         with_sufix @template
-      else
+     else
         with_sufix default_template
-      end
+     end
     end
   end
 end
