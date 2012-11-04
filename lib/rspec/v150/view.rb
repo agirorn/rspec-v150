@@ -3,7 +3,7 @@ require 'rspec/v150/view/erb_view'
 module RSpec::V150
   module View
     def view
-      @_view ||= ErbView.new
+      @view ||= ErbView.new
     end
 
     def render
@@ -52,6 +52,5 @@ module RSpec::V150
         _default_template
       end
     end
-
   end
 end
