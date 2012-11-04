@@ -16,7 +16,7 @@ module RSpec::V150
     end
 
     def template
-      File.join [template_path, with_sufix(_template_name)]
+      File.join [template_path, with_sufix(template_name)]
     end
 
     def template=(location)
@@ -41,15 +41,15 @@ module RSpec::V150
       'app/views/'
     end
 
-    def _default_template
+    def default_template
       example.example_group.top_level_description
     end
 
-    def _template_name
+    def template_name
       if @template
         @template
       else
-        _default_template
+        default_template
       end
     end
   end
