@@ -45,17 +45,17 @@ describe RSpec::V150::View do
   describe 'locating template' do
     it 'asks rspec for the template name' do
       view_spec.stub(:example => example)
-      view_spec.template.should == 'app/views/post/index.html.erb'
+      view_spec.template_path.should == 'app/views/post/index.html.erb'
     end
 
     it 'finds a full path template' do
       view_spec.template = 'post/index.html.erb'
-      view_spec.template.should == 'app/views/post/index.html.erb'
+      view_spec.template_path.should == 'app/views/post/index.html.erb'
     end
 
     it 'finds a partial path template' do
       view_spec.template = 'post/index'
-      view_spec.template.should == 'app/views/post/index.html.erb'
+      view_spec.template_path.should == 'app/views/post/index.html.erb'
     end
   end
 

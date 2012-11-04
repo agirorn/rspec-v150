@@ -2,6 +2,8 @@ require 'rspec/v150/view/erb_view'
 
 module RSpec::V150
   module View
+    attr_reader :template
+
     def view
       @view ||= ErbView.new
     end
@@ -14,10 +16,6 @@ module RSpec::V150
       @rendered
     end
 
-    def template
-      template_path
-    end
-
     def template=(location)
       @template = location
     end
@@ -26,11 +24,11 @@ module RSpec::V150
       view.assign(name, variable)
     end
 
-    private
-
     def template_path
       File.join [template_directory, template_name]
     end
+
+    private
 
     def with_sufix(name)
       if name.match(/.*\.html\.erb/)
@@ -49,7 +47,7 @@ module RSpec::V150
     end
 
     def template_name
-     if @template
+     if template
         with_sufix @template
      else
         with_sufix default_template
