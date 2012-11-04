@@ -8,7 +8,8 @@ module RSpec
       end
 
       def render
-        @rendered = view.render
+        view.template = template
+        @rendered = view.render(template)
       end
 
       def rendered
@@ -16,7 +17,11 @@ module RSpec
       end
 
       def template
-        example.example_group.top_level_description
+        File.join [template_path, with_sufix(_template_name)]
+      end
+
+      def template=(location)
+        @template = location
       end
 
       def assign(name, variable)
@@ -25,10 +30,35 @@ module RSpec
 
       private
 
+      def with_sufix(name)
+        if name.match(/.*\.html\.erb/)
+          name
+        else
+          name + '.html.erb'
+        end
+      end
+
+      def template_path
+        'app/views/'
+      end
+
+      def _default_template
+        example.example_group.top_level_description
+      end
+
+      def _template_name
+        if @template
+          @template
+        else
+          _default_template
+        end
+      end
+
       class ErbView
         Erubis = ActionView::Template::Handlers::Erubis
 
-        def render
+        def render(path)
+          template = path
           view.result(binding())
         end
 
@@ -36,9 +66,13 @@ module RSpec
           Erubis.new(template)
         end
 
-        # def template
+        def template
+          File.readlines(@template).join()
+        end
 
-        # end
+        def template=(value)
+          @template = value
+        end
 
         def output_buffer
           @output_buffer ||= ActionView::OutputBuffer.new

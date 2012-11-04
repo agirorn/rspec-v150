@@ -20,23 +20,43 @@ describe RSpec::V150::View do
   end
 
   it 'responds to rendered' do
+    view_spec.should respond_to(:rendered)
   end
 
   it 'renders a simple view' do
+    view_spec.stub(:template)
     view_spec.view.stub(:template) { simple_template }
     view_spec.render
     view_spec.rendered.should == 'Hello World'
-  end
-
-  it 'asks rspec for the template name' do
-    view_spec.stub(:example => example)
-    view_spec.template.should == 'post/index'
   end
 
   it "set's instance varables for the view" do
     post = double
     view_spec.assign(:post, post)
     view_spec.view.instance_variable_get(:@post).should eq(post)
+  end
+
+  it 'renders template from file' do
+    view_spec.stub(:template => 'spec/files/views/post/index.html.erb')
+    view_spec.render
+    view_spec.rendered.should == "<h1> Template: post/index </h1>\n"
+  end
+
+  describe 'locating template' do
+    it 'asks rspec for the template name' do
+      view_spec.stub(:example => example)
+      view_spec.template.should == 'app/views/post/index.html.erb'
+    end
+
+    it 'finds a full path template' do
+      view_spec.template = 'post/index.html.erb'
+      view_spec.template.should == 'app/views/post/index.html.erb'
+    end
+
+    it 'finds a partial path template' do
+      view_spec.template = 'post/index'
+      view_spec.template.should == 'app/views/post/index.html.erb'
+    end
   end
 
 end
