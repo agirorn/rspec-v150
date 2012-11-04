@@ -7,7 +7,7 @@ module RSpec::V150
     end
 
     def render
-      @rendered = view.render(template)
+      @rendered = view.render(template_path)
     end
 
     def rendered
@@ -15,7 +15,7 @@ module RSpec::V150
     end
 
     def template
-      File.join [template_path, template_name]
+      template_path
     end
 
     def template=(location)
@@ -28,6 +28,10 @@ module RSpec::V150
 
     private
 
+    def template_path
+      File.join [template_directory, template_name]
+    end
+
     def with_sufix(name)
       if name.match(/.*\.html\.erb/)
         name
@@ -36,7 +40,7 @@ module RSpec::V150
       end
     end
 
-    def template_path
+    def template_directory
       'app/views/'
     end
 

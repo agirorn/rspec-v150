@@ -24,7 +24,7 @@ describe RSpec::V150::View do
   end
 
   it 'renders a simple view' do
-    view_spec.stub(:template)
+    view_spec.stub(:template_path)
     view_spec.view.stub(:template) { simple_template }
     view_spec.render
     view_spec.rendered.should == 'Hello World'
@@ -37,7 +37,7 @@ describe RSpec::V150::View do
   end
 
   it 'renders template from file' do
-    view_spec.stub(:template => 'spec/files/views/post/index.html.erb')
+    view_spec.stub(:template_path => 'spec/files/views/post/index.html.erb')
     view_spec.render
     view_spec.rendered.should == "<h1> Template: post/index </h1>\n"
   end
