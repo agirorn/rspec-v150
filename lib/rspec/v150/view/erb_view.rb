@@ -5,7 +5,7 @@ module RSpec::V150::View
     Erubis = ActionView::Template::Handlers::Erubis
 
     def render(path)
-      template = path
+      self.template = path
       view.result(binding())
     end
 

@@ -7,7 +7,6 @@ module RSpec::V150
     end
 
     def render
-      view.template = template
       @rendered = view.render(template)
     end
 
@@ -16,7 +15,7 @@ module RSpec::V150
     end
 
     def template
-      File.join [template_path, with_sufix(template_name)]
+      File.join [template_path, template_name]
     end
 
     def template=(location)
@@ -46,10 +45,10 @@ module RSpec::V150
     end
 
     def template_name
-      if @template
-        @template
+     if @template
+        with_sufix @template
       else
-        default_template
+        with_sufix default_template
       end
     end
   end
