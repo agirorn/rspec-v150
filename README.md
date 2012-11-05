@@ -28,7 +28,7 @@ To be continued....
 ### View Specs
 
 ```erb
-  <h1><%= @post.title %></h1>
+<h1><%= @post.title %></h1>
 ```
 
 ```ruby
