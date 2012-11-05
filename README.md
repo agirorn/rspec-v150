@@ -33,6 +33,8 @@ To be continued....
 
 ```ruby
 require 'spec_helper'
+require 'rspec/v150/view'
+
 describe "post/index" do
   include Rspec::V150::View
 
