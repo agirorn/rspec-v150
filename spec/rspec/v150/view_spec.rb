@@ -29,7 +29,7 @@ describe RSpec::V150::View do
 
   it 'renders a simple view' do
     view_spec.stub(:template_path)
-    view_spec.view.stub(:template) { simple_template }
+    view_spec.stub(:template_source) { simple_template }
     view_spec.render
     view_spec.rendered.should == 'Hello World'
   end
@@ -68,6 +68,15 @@ describe RSpec::V150::View do
     view_spec.stub(:rendered => rendered)
     Capybara.should_receive(:string).with(rendered)
     view_spec.page
+  end
+
+  describe 'rendering views that render other views' do
+    it 'renders the template' do
+      view_spec.view.should_receive(:render).with(:partial => 'other_template')
+      view_spec.stub(:template_path => 'spec/files/views/post/rerendering.html.erb' )
+      view_spec.template = 'post/rerendering'
+      view_spec.render
+    end
   end
 
 end

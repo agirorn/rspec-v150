@@ -1,16 +1,23 @@
 require 'capybara'
-require 'rspec/v150/view/erb_view'
+require 'action_view'
+require 'rspec/v150/view/context'
 
 module RSpec::V150
   module View
+    ERB = ActionView::Template::Handlers::Erubis
+
     attr_reader :template
 
     def view
-      @view ||= ErbView.new
+      @view ||= Context.new
     end
 
     def render
-      @rendered = view.render(template_path)
+      @rendered = view._render_view( ERB.new template_source )
+    end
+
+    def template_source
+      File.readlines( template_path ).join
     end
 
     def rendered
@@ -33,7 +40,7 @@ module RSpec::V150
       File.join [template_directory, template_name]
     end
 
-    private
+  private
 
     def with_sufix(name)
       if name.match(/.*\.html\.erb/)
