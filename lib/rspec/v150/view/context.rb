@@ -1,5 +1,8 @@
 module RSpec::V150::View
     class Context
+      include ActionView::Helpers
+      include ActionView::Helpers::CaptureHelper
+
       def _render_view(view)
         view.result(binding())
       end

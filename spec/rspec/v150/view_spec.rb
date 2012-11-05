@@ -79,4 +79,17 @@ describe RSpec::V150::View do
     end
   end
 
+  it 'renders link_to as expected by rails for string_paths' do
+    view_spec.stub :template_source => '<%= link_to "Here is the post", "/post" %>'
+    view_spec.render
+    view_spec.rendered.should == '<a href="/post">Here is the post</a>'
+  end
+
+  it 'renders link_to as expected by rails for stubed out routes' do
+    view_spec.stub :template_source => '<%= link_to "Here is the post", post_path %>'
+    view_spec.view.stub(:post_path => '/post')
+    view_spec.render
+    view_spec.rendered.should == '<a href="/post">Here is the post</a>'
+  end
+
 end
