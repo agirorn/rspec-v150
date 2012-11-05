@@ -1,11 +1,19 @@
+require 'ostruct'
 require 'rspec/v150/view'
 
 describe RSpec::V150::View do
-  let(:view_spec) do
-    Class.new do
-      include RSpec::V150::View
-    end.new
+  class ViewSpec
+    include RSpec::V150::View
+
+    def example
+      OpenStruct.new(
+        :example_group => OpenStruct.new(:top_level_description => 'post/index')
+      )
+    end
   end
+
+  let(:view_spec) { ViewSpec.new }
+  let(:view_spec) { ViewSpec.new }
 
   it 'responds to view' do
     view_spec.should respond_to(:view)
@@ -42,11 +50,7 @@ describe RSpec::V150::View do
   end
 
   describe 'geting template_path from excample_group description' do
-    let(:example_group) { double(:top_level_description => 'post/index') }
-    let(:example) { double(:example_group => example_group) }
-
     it "get's the template_path from the example_group" do
-      view_spec.stub(:example => example)
       view_spec.template_path.should == 'app/views/post/index.html.erb'
     end
   end
@@ -88,6 +92,33 @@ describe RSpec::V150::View do
     view_spec.view.stub(:post_path => '/post')
     view_spec.render
     view_spec.rendered.should == '<a href="/post">Here is the post</a>'
+  end
+
+  describe 'Broken template' do
+    it 'throws an ArgumentError when instance_variable is missing' do
+      view_spec.stub(:template_path => 'spec/files/views/post/broken_instance_varabale.html.erb')
+      expect { view_spec.render }.to raise_error(ArgumentError)
+    end
+
+    describe 'backtrace' do
+      before do
+        view_spec.stub(:template_path => 'spec/files/views/post/broken_instance_varabale.html.erb')
+        begin
+          view_spec.render
+        rescue => boom
+          line = boom.backtrace.first
+          @file, @line_number, meth = line.split(":")
+        end
+      end
+
+      it 'includes the template file name' do
+        expect(@file).to eq('spec/files/views/post/broken_instance_varabale.html.erb')
+      end
+
+      it 'includes the template line number' do
+        expect(@line_number).to eq('3')
+      end
+    end
   end
 
 end

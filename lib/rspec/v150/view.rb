@@ -13,11 +13,17 @@ module RSpec::V150
     end
 
     def render
-      @rendered = view._render_view( ERB.new template_source )
+      @rendered = view._render_view( ERB.new( template_source, template_properties) )
     end
 
     def template_source
       File.readlines( template_path ).join
+    end
+
+    def template_properties
+      if template_path
+        { :filename => template_path }
+      end
     end
 
     def rendered
