@@ -25,7 +25,7 @@ end
 
 To be continued....
 
-### Request Specs
+### View Specs
 
 ```erb
   <h1><%= @post.title %></h1>
@@ -34,6 +34,8 @@ To be continued....
 ```ruby
 require 'spec_helper'
 describe "post/index" do
+  include Rspec::V150::View
+
   it "displays post title" do
     post = double(:title => 'Title of a Post')
     assign(:post, post)
