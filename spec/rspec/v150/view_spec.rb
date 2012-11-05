@@ -23,6 +23,10 @@ describe RSpec::V150::View do
     view_spec.should respond_to(:rendered)
   end
 
+  it 'responds to page' do
+    view_spec.should respond_to(:page)
+  end
+
   it 'renders a simple view' do
     view_spec.stub(:template_path)
     view_spec.view.stub(:template) { simple_template }
@@ -57,6 +61,13 @@ describe RSpec::V150::View do
       view_spec.template = 'post/index'
       view_spec.template_path.should == 'app/views/post/index.html.erb'
     end
+  end
+
+  it "set's page as a Capybara version of rendered" do
+    rendered = double
+    view_spec.stub(:rendered => rendered)
+    Capybara.should_receive(:string).with(rendered)
+    view_spec.page
   end
 
 end

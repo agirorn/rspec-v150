@@ -1,3 +1,4 @@
+require 'capybara'
 require 'rspec/v150/view/erb_view'
 
 module RSpec::V150
@@ -14,6 +15,10 @@ module RSpec::V150
 
     def rendered
       @rendered
+    end
+
+    def page
+      Capybara.string rendered
     end
 
     def template=(location)
