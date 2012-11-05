@@ -1,10 +1,6 @@
 require 'rspec/v150/view'
 
 describe RSpec::V150::View do
-  let(:simple_template) { 'Hello <%= "World" %>' }
-  let(:example_group) { double(:top_level_description => 'post/index') }
-  let(:example) { double(:example_group => example_group) }
-
   let(:view_spec) do
     Class.new do
       include RSpec::V150::View
@@ -28,8 +24,7 @@ describe RSpec::V150::View do
   end
 
   it 'renders a simple view' do
-    view_spec.stub(:template_path)
-    view_spec.stub(:template_source) { simple_template }
+    view_spec.stub(:template_source) { 'Hello <%= "World" %>' }
     view_spec.render
     view_spec.rendered.should == 'Hello World'
   end
@@ -46,21 +41,24 @@ describe RSpec::V150::View do
     view_spec.rendered.should == "<h1> Template: post/index </h1>\n"
   end
 
-  describe 'locating template' do
-    it 'asks rspec for the template name' do
+  describe 'geting template_path from excample_group description' do
+    let(:example_group) { double(:top_level_description => 'post/index') }
+    let(:example) { double(:example_group => example_group) }
+
+    it "get's the template_path from the example_group" do
       view_spec.stub(:example => example)
       view_spec.template_path.should == 'app/views/post/index.html.erb'
     end
+  end
 
-    it 'finds a full path template' do
-      view_spec.template = 'post/index.html.erb'
-      view_spec.template_path.should == 'app/views/post/index.html.erb'
-    end
+  it 'finds a full path template' do
+    view_spec.template = 'post/index.html.erb'
+    view_spec.template_path.should == 'app/views/post/index.html.erb'
+  end
 
-    it 'finds a partial path template' do
-      view_spec.template = 'post/index'
-      view_spec.template_path.should == 'app/views/post/index.html.erb'
-    end
+  it 'finds the full path from a partial path template' do
+    view_spec.template = 'post/index'
+    view_spec.template_path.should == 'app/views/post/index.html.erb'
   end
 
   it "set's page as a Capybara version of rendered" do
