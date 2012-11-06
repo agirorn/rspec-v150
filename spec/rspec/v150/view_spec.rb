@@ -132,4 +132,10 @@ describe RSpec::V150::View do
     view_spec.rendered.strip.should == '<p> THE MESSAGE </p>'
   end
 
+  it 'renders withe out error when image_tag is used' do
+    view_spec.stub :template_source => "<%= image_tag 'logo.jpeg' %>"
+    view_spec.render
+    view_spec.rendered.should == "<img src='logo.jpeg'>"
+  end
+
 end

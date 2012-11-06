@@ -1,7 +1,15 @@
+require 'pry'
 module RSpec::V150::View
   class Context
     include ActionView::Helpers
     include ActionView::Helpers::CaptureHelper
+
+    def image_tag(sourse, options = {});
+      options.merge! :src => sourse
+      attributes = options.collect{|k,v| "#{k}='#{v}'" }.join(' ')
+
+      "<img #{attributes}>".html_safe
+    end
 
     def _render_view(view)
       view.result(binding())
