@@ -121,4 +121,15 @@ describe RSpec::V150::View do
     end
   end
 
+  it 'supports the capture_helper' do
+    view_spec.stub :template_source => %{
+      <%= capture do %>
+        <p> <%= @message %> </p>
+      <% end %>
+    }
+    view_spec.assign :message, 'THE MESSAGE'
+    view_spec.render
+    view_spec.rendered.strip.should == '<p> THE MESSAGE </p>'
+  end
+
 end

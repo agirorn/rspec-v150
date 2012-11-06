@@ -14,5 +14,9 @@ module RSpec::V150::View
     def output_buffer
       @output_buffer ||= ActionView::OutputBuffer.new
     end
+
+    def output_buffer=(buffer)
+      @output_buffer = buffer
+    end
   end
 end
