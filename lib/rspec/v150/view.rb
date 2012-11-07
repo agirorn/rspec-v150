@@ -46,6 +46,10 @@ module RSpec::V150
       File.join [template_directory, template_name]
     end
 
+    def helper(module_const)
+      view.extend module_const
+    end
+
   private
 
     def with_sufix(name)

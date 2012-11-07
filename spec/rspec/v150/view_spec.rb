@@ -12,8 +12,14 @@ describe RSpec::V150::View do
     end
   end
 
+  module SomeHelper
+    def some_helper_method
+      'some help full text'
+    end
+  end
+
   let(:view_spec) { ViewSpec.new }
-  let(:view_spec) { ViewSpec.new }
+  let(:view) { view_spec.view }
 
   it 'responds to view' do
     view_spec.should respond_to(:view)
@@ -136,6 +142,11 @@ describe RSpec::V150::View do
     view_spec.stub :template_source => "<%= image_tag 'logo.jpeg' %>"
     view_spec.render
     view_spec.rendered.should == "<img src='logo.jpeg'>"
+  end
+
+  it 'can include other helpers' do
+    view_spec.helper SomeHelper
+    view.some_helper_method.should == 'some help full text'
   end
 
 end
