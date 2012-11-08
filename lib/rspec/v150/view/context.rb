@@ -1,4 +1,5 @@
-require 'pry'
+require 'action_view'
+
 module RSpec::V150::View
   class Context
     include ActionView::Helpers
