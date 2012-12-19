@@ -36,7 +36,7 @@ require 'spec_helper'
 require 'rspec/v150/view'
 
 describe "post/index" do
-  include Rspec::V150::View
+  include RSpec::V150::View
 
   it "displays post title" do
     post = double(:title => 'Title of a Post')
