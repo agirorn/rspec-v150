@@ -53,11 +53,15 @@ module RSpec::V150
   private
 
     def with_sufix(name)
-      if name.match(/.*\.html\.erb/)
-        name
-      else
-        name + '.html.erb'
+      if name.match(/\.erb\z/)
+        return name
       end
+
+      if name.match(/\.(html|text|json)\z/)
+        return name + '.erb'
+      end
+
+      name + '.html.erb'
     end
 
     def template_directory

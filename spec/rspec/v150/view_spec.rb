@@ -71,6 +71,11 @@ describe RSpec::V150::View do
     view_spec.template_path.should == 'app/views/post/index.html.erb'
   end
 
+  it 'finds the full path for difrent types of files' do
+    view_spec.template = 'post/index.text'
+    view_spec.template_path.should == 'app/views/post/index.text.erb'
+  end
+
   it "set's page as a Capybara version of rendered" do
     rendered = double
     view_spec.stub(:rendered => rendered)
