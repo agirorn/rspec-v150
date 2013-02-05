@@ -16,12 +16,9 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
 
   s.add_runtime_dependency 'rspec'
+  s.add_runtime_dependency 'actionpack'
 
-  s.add_development_dependency 'rspec'
-  # s.add_development_dependency 'activerecord'
   s.add_development_dependency 'actionpack'
+  s.add_development_dependency 'rspec'
   s.add_development_dependency 'capybara'
-  s.add_development_dependency 'rake'
-  # s.add_development_dependency 'activesupport'
-  # s.add_development_dependency 'sqlite3'
 end
