@@ -154,4 +154,13 @@ describe RSpec::V150::View do
     view.some_helper_method.should == 'some help full text'
   end
 
+  it "renders code with yield" do
+    view_spec.stub :template_source => %{
+      <%= yield %>
+      <p> THE MESSAGE </p>
+    }
+    view_spec.render
+    view_spec.rendered.strip.should == '<p> THE MESSAGE </p>'
+  end
+
 end

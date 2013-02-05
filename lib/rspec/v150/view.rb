@@ -13,7 +13,7 @@ module RSpec::V150
     end
 
     def render
-      @rendered = view._render_view( ERB.new( template_source, template_properties) )
+      @rendered = view._render_view( ERB.new( template_source, template_properties) ) {}
     end
 
     def template_source
